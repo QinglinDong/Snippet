@@ -1,0 +1,39 @@
+import pandas as pd
+
+# Load and Save
+df = pd.read_csv('..\\documents\\database\\patient information\\CM_ADT_DeIdentified.csv')
+df.to_csv('..\\documents\\database\\patient information\\patient_to_session.csv')
+
+# Stats
+df['Feature'].values
+df['Feature'].value_counts()
+df['Feature'].min()
+for col_names in df:
+    print(col_names)
+
+# Sort
+df = df.sort_values(['Feature1', 'Feature2'])
+df = df.reset_index(drop=True)
+df = df.drop(['id', 'user_id', 'alarmStatus'], axis=1)
+df = df.drop_duplicates()
+
+# Select
+df.loc[df['Feature'] == val]
+df.iloc[0]['Feature']
+discrepency_rows = df.loc[(df['patient_id'] == row['patient_id']) & 
+                          (df['alarm'] == row['alarm']) & 
+                          (df['annotation'] != row['annotation'])
+                         ] 
+
+
+# remove
+df = df.append({'Feature1': val1, 'Feature2': val2}, ignore_index=True )
+df = df[~df['Feature'].isin(Other)]
+
+for index, row in df.iterrows():
+    val1 = row['Feature1'] 
+    df_VT.at[index,'assigned_patient_location'] = assigned_patient_location
+
+# datet,ime
+df['alarm'] =df['alarm'].astype('datetime64')    
+df_test.loc[df_test['alarm'] > pd.Timestamp('2020-10-01 23:59:59')] 
