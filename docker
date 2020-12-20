@@ -1,0 +1,33 @@
+docker run --gpus all -it -p 8877:8877 -v $PWD/workspcace -w /work_spcace tensorflow/tensorflow:latest-gpu-jupyter jupyter notebook --ip 0.0.0.0 --port 8877 --no-browser --allow-root
+
+export dockerImage=nvcr.io/nvidia/clara-train-sdk:v2.0
+docker pull $dockerImage
+docker run --rm --gpus all -it -p 8878:8878 -v /home/qinglin.dong/workspace:/workspace $dockerImage jupyter notebook --ip 0.0.0.0 --port 8878 --no-browser --allow-root --notebook-dir=/
+
+docker run --gpus '"device=1,2"' nvidia/cuda:10.0-base nvidia-smi
+docker run --name clara --rm --gpus '"device=1,2"' -it -p 8878:8878 -v /home/qinglin.dong/workspace:/workspace $dockerImage jupyter notebook --ip 0.0.0.0 --port 8878 --no-browser --allow-root --notebook-dir=/
+docker run --name clara --rm --gpus '"device=1,2"' -it -p 8878:8878 -v /home/qinglin.dong/workspace:/workspace $dockerImage jupyter notebook --ip 0.0.0.0 --port 8878 --no-browser --allow-root --notebook-dir=/
+
+sudo docker exec -it tf_qinglin /bin/bash
+docker exec -it eb3a42fcca12 bash
+
+vim ~/.bashrc , edit the env
+source ~/.bashrc
+env
+
+https://s3tools.org/s3cmd-howto
+
+curl -O https://s3.amazonaws.com/img-datasets/mnist.npz
+s3cmd mb s3://qinglin.dong-mnist
+s3cmd put mnist.npz s3://qinglin.dong-mnist
+s3cmd ls s3://qinglin.dong-mnist
+
+s3cmd mb s3://qinglin.dong256x256x2.5mmsubset
+s3cmd put --recursive /home/data/cta-stroke/sharing/data256x256x2.5mmsubset s3://qinglin.dong256x256x2.5mmsubset
+s3cmd ls s3://qinglin.dong256x256x2.5mmsubset
+
+s3cmd get --recursive s3://qinglin.dong256x256x2.5mmsubset
+
+s3cmd mb s3://qinglin.dong256x256x2.5mm
+s3cmd put --recursive /home/data/cta-stroke/sharing/data256x256x2.5mm s3://qinglin.dong256x256x2.5mm
+s3cmd ls s3://qinglin.dong256x256x2.5mm
