@@ -1,0 +1,18 @@
+By definition, a decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it.
+```
+def use_logging(func):
+
+def wrapper(args, *kwargs):
+logging.warn("%s is running" % func.name)
+return func(*args)
+return wrapper
+
+@use_logging
+def foo():
+print("i am foo")
+
+@use_logging
+def bar():
+print("i am bar")
+
+bar()
