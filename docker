@@ -31,3 +31,49 @@ s3cmd get --recursive s3://qinglin.dong256x256x2.5mmsubset
 s3cmd mb s3://qinglin.dong256x256x2.5mm
 s3cmd put --recursive /home/data/cta-stroke/sharing/data256x256x2.5mm s3://qinglin.dong256x256x2.5mm
 s3cmd ls s3://qinglin.dong256x256x2.5mm
+
+docker run --rm --gpus all -it -p 8800:8800 -v /home/qinglin.dong/workspace:/workspace cta-stroke-qinglin jupyter notebook --ip 0.0.0.0 --port 8800 --no-browser --allow-root --notebook-dir=/
+
+docker exec -it 8bc3c0da395d /bin/bash
+apt update
+apt install --assume-yes vim
+
+export SINGULARITYDOCKERUSERNAME='qinglin.dong'
+export SINGULARITYDOCKERPASSWORD='BxXDvmTj1HizxsyELXs3'
+export AWSACCESSKEYID='M9F13ICYGZLFXFGOVEYS'
+export AWSSECRETACCESSKEY='8HQ1UlAHjHPb2WDQnKkXMoKEFLOT9uutdaNeoHMW'
+
+docker build --tag cta-qinglin .
+
+docker run --rm --gpus all -it -p 8801:8801 -v /home/qinglin.dong/workspace:/workspace -v /home/dufan.wu/mnt/cta-stroke/sharing:/workspace/data/cta-stroke/sharing cta-qinglin jupyter notebook --ip 0.0.0.0 --port 8801 --no-browser --allow-root --notebook-dir=/
+// changed to 8803 already
+
+docker build -t gitlab-registry.ccds.io/qinglin.dong/cta-qinglin:cta-qinglin1 .
+docker push gitlab-registry.ccds.io/qinglin.dong/cta-qinglin:cta-qinglin1
+
+docker run -it --name qinglin-clara --rm \
+--gpus '"device=4,5"' \
+-p 8805:8805 -p 8807:6006 \
+-v /home/qinglin.dong/workspace:/workspace \
+-v /raid/qinglin:/workspace/data/raid \
+nvcr.io/nvidia/clara-train-sdk:v2.0 \
+jupyter notebook --ip 0.0.0.0 --port 8805 --no-browser --allow-root --notebook-dir=/
+//map6006 port for tensorboard
+
+docker run -it --name qinglin-clara --rm \
+--gpus '"device=4,5"' \
+-p 8808:8808 -p 8809:6006 \
+-v /home/qinglin.dong/workspace:/workspace \
+-v /raid/qinglin:/workspace/data/raid \
+nvcr.io/nvidia/clara-train-sdk:v2.0 \
+jupyter notebook --ip 0.0.0.0 --port 8808 --no-browser --allow-root --notebook-dir=/
+//map6006 port for tensorboard
+
+docker run -it --name qinglin-clara --rm \
+--gpus '"device=4,5"' \
+-p 8810:8810 -p 8802:8802 \
+-v /home/qinglin.dong/workspace:/workspace \
+-v /raid/qinglin:/workspace/data/raid \
+nvcr.io/nvidia/clara-train-sdk:v2.0 \
+jupyter notebook --ip 0.0.0.0 --port 8810 --no-browser --allow-root --notebook-dir=/
+//map6006 port for tensorboard
