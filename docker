@@ -38,11 +38,6 @@ docker exec -it 8bc3c0da395d /bin/bash
 apt update
 apt install --assume-yes vim
 
-export SINGULARITYDOCKERUSERNAME='qinglin.dong'
-export SINGULARITYDOCKERPASSWORD='BxXDvmTj1HizxsyELXs3'
-export AWSACCESSKEYID='M9F13ICYGZLFXFGOVEYS'
-export AWSSECRETACCESSKEY='8HQ1UlAHjHPb2WDQnKkXMoKEFLOT9uutdaNeoHMW'
-
 docker build --tag cta-qinglin .
 
 docker run --rm --gpus all -it -p 8801:8801 -v /home/qinglin.dong/workspace:/workspace -v /home/dufan.wu/mnt/cta-stroke/sharing:/workspace/data/cta-stroke/sharing cta-qinglin jupyter notebook --ip 0.0.0.0 --port 8801 --no-browser --allow-root --notebook-dir=/
